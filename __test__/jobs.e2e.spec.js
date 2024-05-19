@@ -18,8 +18,10 @@ let mockJob = {
   user: "664067296409e8233abc9f93",
 };
 
+let db = Date.now().toString();
+
 beforeAll(async () => {
-  await connectDatabase();
+  await connectDatabase(db);
   const res = await request(app).post("/api/v1/register").send({
     name: "pratham",
     email: "pratham@gmail.com",
@@ -29,7 +31,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await closeDatabase();
+  await closeDatabase(db);
 });
 
 describe("Job (e2e)", () => {

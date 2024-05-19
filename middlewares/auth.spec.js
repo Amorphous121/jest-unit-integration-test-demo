@@ -21,6 +21,10 @@ const mockResponse = () => {
 
 const mockNext = jest.fn();
 
+afterEach(() => {
+  jest.restoreAllMocks();
+});
+
 describe("Authentication Middleware", () => {
   it("should throw missing authorization header error", async () => {
     const mockReq = (mockRequest().headers = { headers: {} });
@@ -67,14 +71,14 @@ describe("Authentication Middleware", () => {
   });
 
   it("should authenticate user", async () => {
-    jest.spyOn(jwt, "verify").mockReturnValue({ id: '123456789' });
-    jest.spyOn(User, 'findById').mockResolvedValueOnce({ id: '123456789' })
+    jest.spyOn(jwt, "verify").mockReturnValue({ id: "123456789" });
+    jest.spyOn(User, "findById").mockResolvedValueOnce({ id: "123456789" });
 
     const mockReq = (mockRequest().headers = {
       headers: { authorization: "Bearer abc" },
     });
     const mockRes = mockResponse();
-    
+
     await isAuthenticatedUser(mockReq, mockRes, mockNext);
     expect(mockNext).toHaveBeenCalledTimes(1);
   });

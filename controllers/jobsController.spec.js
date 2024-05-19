@@ -1,5 +1,11 @@
 import Job from "../models/jobs";
-import { deleteJob, getJob, getJobs, newJob, updateJob } from "./jobsController";
+import {
+  deleteJob,
+  getJob,
+  getJobs,
+  newJob,
+  updateJob,
+} from "./jobsController";
 
 const mockJob = {
   _id: "664067296409e8233abAZf93",
@@ -33,7 +39,6 @@ const mockResponse = () => {
 };
 
 afterEach(() => {
-  // restore all mocks created by jest.spyon()
   jest.restoreAllMocks();
 });
 
@@ -216,12 +221,12 @@ describe("Jobs Controller", () => {
       await deleteJob(mockReq, mockRes);
 
       expect(mockRes.status).toHaveBeenCalledWith(404);
-      expect(mockRes.json).toHaveBeenCalledWith({ error: 'Job not found' });
+      expect(mockRes.json).toHaveBeenCalledWith({ error: "Job not found" });
     });
 
     it("should delete the job", async () => {
       jest.spyOn(Job, "findById").mockResolvedValueOnce(mockJob);
-      jest.spyOn(Job, 'findByIdAndDelete').mockResolvedValueOnce(mockJob);
+      jest.spyOn(Job, "findByIdAndDelete").mockResolvedValueOnce(mockJob);
 
       const mockReq = (mockRequest().params = {
         params: { id: "664067296409e8233abAZf93" },

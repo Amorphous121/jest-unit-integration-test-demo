@@ -1,18 +1,14 @@
 import mongoose from "mongoose";
-import { MongoMemoryServer } from "mongodb-memory-server";
+import { config } from "dotenv";
 
-let mongo = null;
+config({ path: ".env.test" });
 
-export const connectDatabase = async () => {
-  mongo = await MongoMemoryServer.create();
-  const uri = mongo.getUri();
-
+export const connectDatabase = async (dbName) => {
   mongoose.set("strictQuery", true);
-  await mongoose.connect(uri);
+  return mongoose.connect(process.env.DB_URL, { dbName });
 };
 
 export const closeDatabase = async () => {
   await mongoose.connection.dropDatabase();
   await mongoose.connection.close();
-  await mongo.stop();
 };

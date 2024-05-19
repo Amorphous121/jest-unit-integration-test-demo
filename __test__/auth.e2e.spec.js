@@ -2,12 +2,14 @@ import request from "supertest";
 import app from "../app";
 import { closeDatabase, connectDatabase } from "./db-handler";
 
+let db = Date.now().toString();
+
 beforeAll(async () => {
-  await connectDatabase();
+  await connectDatabase(db);
 });
 
 afterAll(async () => {
-  await closeDatabase();
+  await closeDatabase(db);
 });
 
 describe("Auth (e2e)", () => {
@@ -73,6 +75,11 @@ describe("Auth (e2e)", () => {
     });
 
     it("should login the user", async () => {
+      await request(app).post("/api/v1/register").send({
+        name: "pravin",
+        email: "pratham@gmail.com",
+        password: "12345678",
+      });
       const res = await request(app)
         .post("/api/v1/login")
         .send({ email: "pratham@gmail.com", password: "12345678" });

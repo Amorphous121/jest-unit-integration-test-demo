@@ -27,12 +27,16 @@ jest.mock("aws-sdk", () => ({
   })),
 }));
 
+afterEach(() => {
+  jest.restoreAllMocks();
+});
+
 describe("S3 File upload", () => {
   it("should upload the file", async () => {
     const s3Service = new S3Service();
     const resp = await s3Service.upload(mockFile);
 
     expect(resp).toBeDefined();
-    expect(resp).toHaveProperty('Location')
+    expect(resp).toHaveProperty("Location");
   });
 });

@@ -9,6 +9,10 @@ jest.mock("nodemailer", () => ({
   }),
 }));
 
+afterEach(() => {
+  jest.restoreAllMocks();
+});
+
 describe("Utils/helper", () => {
   describe("JWT Token", () => {
     it("Should give JWT token", async () => {
